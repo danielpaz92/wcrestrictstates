@@ -5,14 +5,14 @@ function wc_checkout_validation() {
 			$countries   = $countries_obj->__get('countries');
 			$default_country = $countries_obj->get_base_country();
 			$included_states = $countries_obj->get_states( $default_country );
-			// Verification if you are in Brazil : More example look here -> wp-content/plugins/woocommerce/i18n/countries.php
+			// Verification if you are in Base Country
 			if ($default_country != $shipping_country) {
 					wc_add_notice( __( 'Desculpem-nos, infelizmente não vendemos para fora do Brasil.', 'odin' ), 'error' );
 			}
-			// Verification Brazilian States
+			// States Verification
 			if (!in_array( $shipping_state, $included_states ) ) {
-					// Here you generate State Label for your Alert, if you use a different country. Please, specific below your correct country.
-					$states = WC()->countries->get_states( 'BR' );
+					// Here you generate State Label for your Alert.
+					$states = WC()->countries->get_states($default_country);
 					$state  = $states[$shipping_state];
 					wc_add_notice( sprintf( __( 'Desculpem-nos, infelizmente não realizamos entregas para <strong>%s</strong>.', 'odin' ), $state ), 'error' );
 			}
